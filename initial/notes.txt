@@ -1,0 +1,2 @@
+# deploy to OC container
+oc new-app shrikantpatel/myapp:latest --as-deployment-config
