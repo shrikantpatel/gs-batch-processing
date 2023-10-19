@@ -1,2 +1,18 @@
 # deploy to OC container
-oc new-app shrikantpatel/myapp:latest --as-deployment-config
+oc new-app shrikantpatel/batch-app:latest --as-deployment-config
+oc new-app quay.io/shripatel1919/batch-app --as-deployment-config
+
+oc new-app  registry.redhat.io/redhat-openjdk-18/openjdk18-openshift --as-deployment-config
+
+oc get pods --watch
+
+oc create -f job.yaml
+
+docker pull --platform=linux/amd64 amazoncorretto:17.0.8-alpine3.15
+docker image tag amazoncorretto:17.0.8-alpine3.15 quay.io/shripatel1919/batch-app:latest
+docker push quay.io/shripatel1919/batch-app:latest
+oc new-app quay.io/shripatel1919/batch-app --as-deployment-config
+
+oc new-build --name=batch-app registry.redhat.io/redhat-openjdk-18/openjdk18-openshift --binary=true
+oc start-build batch-app --from-dir=/Users/shrikantpatel/projects/gs-batch-processing/initial/build/libs/batch-processing-0.0.1-SNAPSHOT.jar --follow
+oc new-app batch-app

@@ -1,0 +1,19 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: batch-app
+spec:
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+      name: batch-app
+      labels:
+        app: batch-app
+    spec:
+      containers:
+        - name: batch-app
+          # imagestream or internal/external registry
+          image: quay.io/shripatel1919/batch-app:latest
+      restartPolicy: OnFailure
