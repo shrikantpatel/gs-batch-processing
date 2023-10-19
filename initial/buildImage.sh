@@ -14,3 +14,4 @@ jar -xf ../libs/*.jar
 cd ~/projects/gs-batch-processing/initial
 docker build --platform=linux/amd64 -t quay.io/shripatel1919/batch-app:latest .
 docker push quay.io/shripatel1919/batch-app:latest
+oc create -f job.yaml
