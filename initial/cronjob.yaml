@@ -1,0 +1,24 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-app
+spec:
+  schedule: "* * * * *"
+  concurrencyPolicy: "Replace"
+  startingDeadlineSeconds: 200
+  suspend: false
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            parent: "cronjob-app"
+        spec:
+          containers:
+            - name: batch-app
+              # imagestream or internal/external registry
+              image: quay.io/shripatel1919/batch-app:latest
+          restartPolicy: OnFailure
